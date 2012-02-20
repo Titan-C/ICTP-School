@@ -1,12 +1,19 @@
 #!/bin/bash
-dir=cleandat
-mkdir $dir
-find $1 -type f -exec cp -v {} $dir \;
-rm $dir/NOTES
 
-n=0
-for i in $dir/*
+dir=cleaneddata
+if [ ! -d $dir ]; then
+	mkdir $dir
+	echo "mkdir $dir"
+	sleep 1
+fi	
+
+n=$( ls $dir | wc -w )
+((n++))
+
+for i in $( find $1 -type f )
 do
-   	mv -v $i $dir/sample$n.txt
-       	((n++))
+	if [ ! ${i: -5} = "NOTES" ]; then
+		cp $i $dir/data$n.txt
+		((n++))
+	fi
 done
