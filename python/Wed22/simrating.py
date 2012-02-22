@@ -2,6 +2,7 @@
 '''Calculates similarity in order to generate Recommendations for papers'''
 
 import inputdata, numpy
+from scipy.stats import  pearsonr as cor
 #import pdb; pdb.set_trace()
 data = inputdata.raw_scores
 sreaders=set()
@@ -24,6 +25,17 @@ class infbase(object):
       for paper,rank in read.items():
         j=self._papers.index(paper)
         self._rankings[i][j] = rank
+
+  def readersvec(a,b):
+    r1=a[numpy.logical_and(a,b)]
+    r2=b[numpy.logical_and(a,b)]
+    return r1,r2
+
+  def simcheck(a,b):
+    return numpy.linalg.norm(r1-r2)
+
+  def pearsontest(a,b)
+    return cor(a,b)
 
 
 trabajo = infbase()
