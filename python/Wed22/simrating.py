@@ -43,14 +43,28 @@ class infbase(object):
     r = self.pearson_eval(r1,r2)
     return numpy.abs(r/n)
   
-  def listmostsimilar(self,id):
-    reco=[range(len(self._rankings)), [0]*len(self._rankings)]
-    base = self._rankings[id]
-    for j in range(len(self._rankings)):
+  def listmostsimilar(self,id,suject):
+    if suject == 'paper':
+      matrix = self._rankings.T
+    else :
+      matrix = self._rankings
+    
+    reco=[0]*len(matrix)
+    base = matrix[id]
+    for j in range(len(matrix)):
       if j == id :
 	continue
-      reco[1][j] = self.similarity_eval(base,self._rankings[j])
-    return numpy.array(reco).T
+      reco[j] = self.similarity_eval(base,matrix[j])
+    return reco
+
+  def mostsimilar(self,ranked,suject):
+    top = sorted(ranked,reverse=True)
+    for i in range(5):
+      if suject == 'paper':
+	print i+1, '.- ', self._papers[ranked.index(top[i])]
+      else:
+	print i+1, '.- ', self._readers[ranked.index(top[i])]
+      
       
       
 
@@ -60,5 +74,11 @@ trabajo = infbase()
 #print trabajo._papers
 print trabajo._rankings
 #import pdb; pdb.set_trace()
-for id in range(2):
-  epa = trabajo.listmostsimilar(id)
+for id in range(7):
+  print 'Most similar researchers to ',trabajo._readers[id], 'are:'
+  ranked = trabajo.listmostsimilar(id,'researchers')
+  trabajo.mostsimilar(ranked,'researchers')
+for id in range(6):
+  print 'Most similar papers to ',trabajo._papers[id], 'are:'
+  ranked = trabajo.listmostsimilar(id,'paper')
+  trabajo.mostsimilar(ranked,'paper')
