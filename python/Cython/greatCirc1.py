@@ -11,14 +11,3 @@ def great_circle(lon1,lat1,lon2,lat2):
                   (math.sin(a)*math.sin(b)*math.cos(theta)))
     return radius*c
 
-def main():
-  import timeit
-
-  lon1, lat1, lon2, lat2 = -72.345, 34.323, -61.823, 54.826
-  num = 500000
-
-  t = timeit.Timer("great_circle(%f,%f,%f,%f)"%(lon1,lat1,lon2,lat2),"from __main__ import great_circle")
-  print "Pure python function", t.timeit(num), "sec"
-
-if __name__ == "__main__":
-  main()
