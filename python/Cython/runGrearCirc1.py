@@ -14,3 +14,7 @@ print "Cython function with python math", t.timeit(num), "sec"
 t = timeit.Timer("c3.great_circle(%f,%f,%f,%f)" % (lon1,lat1,lon2,lat2), 
                        "import greatCirc3 as c3")
 print "Cython function with c math", t.timeit(num), "sec"
+
+t = timeit.Timer("c4.great_circle(%f,%f,%f,%f,%i)" % (lon1,lat1,lon2,lat2,num), 
+                       "import greatCirc4 as c4")
+print "Cython function with c math and loop in c", t.timeit(1), "sec"
